@@ -13,7 +13,6 @@ pk_tree_model<-rpart(Legendary ~ Attack + Sp_Atk + Sp_Def + HP, data = pkdf,
 rpart.plot(pk_tree_model,type=1,extra=1,box.palette=c('pink','green'),branch.lty=3,
            shadow.col='gray')
 summary(pk_tree_model)
-#rpart is not enough to change separation/branch #. you cange change it with control/cp value adjustment
 
 library(ROCR)
 pk_predict_logit<-predict(pk_logit_model,pkdf,type='response')
@@ -32,7 +31,7 @@ pk_tree_prediction<-prediction(pk_predict_tree[,2],pkdf$Legendary)  #there are t
 pk_performance_logit<-performance(pk_logit_prediction,'tpr','fpr')
 pk_performance_tree<-performance(pk_tree_prediction,'tpr','fpr')
 
-#auc curve, more area the better
 plot(pk_performance_logit,col='blue',lty=3,lwd=3)
 plot(pk_performance_tree,col='black',lty=3,lwd=3,add=T)
-#blue has more right prediction
+#the logistic model has more accurate predictions for a pokemon being legendary because it has greater area under the curve
+# in the low false positive rate area.
